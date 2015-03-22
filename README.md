@@ -40,8 +40,5 @@ not only accepted, but also encouraged. Please submit pull requests or issues
 with your feedback!
 
 
-References
-----------
-
 [Xplage]: http://www.chriskern.net/code/xplaneToGoogleEarth.html
 [FLOSS]: https://en.wikipedia.org/wiki/Alternative_terms_for_free_software#FLOSS

@@ -12,7 +12,9 @@ Installation
 
 1. Clone this repository: `git clone https://github.com/kiike/amerigo.git`.
 
-2. Install the requirements with pip.
+2. Install the requirements with pip:
+
+    ` pip install geojson`
 
 
 Running the webapp
@@ -38,6 +40,18 @@ Development
 This project is still in a very early stage of development. Contributions are
 not only accepted, but also encouraged. Please submit pull requests or issues
 with your feedback!
+
+
+Planned features
+----------------
+
+This features will probably come in the very near future:
+
+- Markers that show the heading of the flight
+
+- Popup with information, such as altitude, speed, etc.
+
+- Toggleable plane tracking, that is, always keep the plane centered
 
 
 [Xplage]: http://www.chriskern.net/code/xplaneToGoogleEarth.html

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>KMLayer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+
+    <script type="text/javascript">
+// Initalise globals
+var map;
+var geojsonlayer;
+var tiles;
+
+// Load a GeoJSON file from /overhead.kml
+function loadGeoJSONLayer() {
+  var r = new XMLHttpRequest();
+  r.open("GET", "/position.geojson", true);
+  r.overrideMimeType("application/json");
+  r.send();
+  r.onreadystatechange = function() {
+    if (r.readyState == 4 && r.status == 200) {
+      geojsondata = JSON.parse(r.response)
+      geojsonlayer = L.geoJson(geojsondata).on("ready", window.setTimeout(refresh, 1000));
+      geojsonlayer.addTo(map);
+    }
+  }
+}
+
+function refresh() {
+  if (map.hasLayer(geojsonlayer)) {
+    map.removeLayer(geojsonlayer);
+    loadGeoJSONLayer();
+  }
+}
+
+// create a map in the "map" div, set the view to a given place and zoom
+map = L.map('map').setView([42.505, -0.09], 6);
+
+// add an OpenStreetMap tile layer
+tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        });
+
+tiles.addTo(map);
+loadGeoJSONLayer();
+    </script>
+  </body>
+</html>
+
+<!-- vim: sts=2 ts=2 sw=2 et
+-->

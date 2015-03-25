@@ -10,10 +10,8 @@ body { margin:0; padding:0; }
 #map { position:absolute; top:0; bottom:0; width:100%; }
     </style>
   </head>
-
   <body>
     <div id="map"></div>
-
     <script type="text/javascript">
 // Initalise globals
 var map;
@@ -25,13 +23,13 @@ function loadGeoJSONLayer() {
   var r = new XMLHttpRequest();
   r.open("GET", "/position.geojson", true);
   r.overrideMimeType("application/json");
-  r.send();
   r.onreadystatechange = function() {
     if (r.readyState == 4 && r.status == 200) {
       geojsondata = JSON.parse(r.response)
       geojsonlayer = L.geoJson(geojsondata).on("ready", window.setTimeout(refresh, 1000));
       geojsonlayer.addTo(map);
     }
+  r.send();
   }
 }
 
@@ -55,6 +53,3 @@ loadGeoJSONLayer();
     </script>
   </body>
 </html>
-
-<!-- vim: sts=2 ts=2 sw=2 et
--->

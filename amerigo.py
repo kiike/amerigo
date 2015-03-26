@@ -21,7 +21,7 @@ def split_payload(l, size=36):
         yield ret
 
 
-def parse(data):
+def parse_stream(data):
     """
     Return a dictionary composed of the parsed binary 'data'.
 

@@ -45,7 +45,7 @@ def parse_stream(data):
                 # Append the translated 'data_set' to the output dict
                 output.update(dict(zip(rosetta[data_set], data)))
             else:
-                log.warning("[ERROR] Couldn't parse:", data)
+                log.warning("Couldn't parse: idx:{} data:{}".format(data_set, data))
 
         return output
 
@@ -72,8 +72,8 @@ def main():
         # Receive with a buffer of 1024 bytes
         data, addr = udp_socket.recvfrom(1024)
         parsed = parse_stream(data)
-        point = geojson.Point(parsed["lon"], parsed["lat"],
-                              parsed["alt_amsl"])
+        if parsed["lon"] and parsed["lat"]:
+            point = geojson.Point((parsed["lon"], parsed["lat"]))
         feature = geojson.Feature(geometry=point)
 
         with open(args.output, mode="w") as f:

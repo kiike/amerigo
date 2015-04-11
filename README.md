@@ -10,11 +10,7 @@ to use Google Earth just to track our flights.
 Installation
 ------------
 
-1. Clone this repository: `git clone https://github.com/kiike/amerigo.git`.
-
-2. Install the requirements with pip:
-
-    ` pip install geojson`
+Clone this repository: `git clone https://github.com/kiike/amerigo.git`.
 
 
 Running the webapp
@@ -28,8 +24,8 @@ Running the webapp
 License
 -------
 
-This project is licensed under the OpenBSD/ISC license. Please check the
-`LICENSE` file for details.
+Please check the `LICENSE` file for the license terms of this project, or the
+`geojson/LICENSE` file for the specific license terms of the geojson project.
 
 
 Development

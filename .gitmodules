@@ -1,3 +1,0 @@
-[submodule "geojson"]
-	path = geojson
-	url = https://github.com/frewsxcv/python-geojson.git

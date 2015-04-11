@@ -20,11 +20,9 @@ Installation
 Running the webapp
 ------------------
 
-3. Run `amerigo.py`
+1. Run `amerigo.py`
 
-4. Keeping `amerigo.py` running, execute a `python -m http.server 8080`
-
-5. Open http://localhost:8080 with your web browser.
+2. Open http://localhost:8000 with your web browser.
 
 
 License

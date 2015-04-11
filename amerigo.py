@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import socket
+import http.server
+import threading
 import struct
 import geojson
 import argparse
@@ -12,6 +14,13 @@ UDP_PORT = 49000
 
 rosetta = {20: ["lat", "lon", "alt_amsl", "alt_agl",
                 "on_rwy", "alt_ind", "lat_south", "lon_west"]}
+
+
+class LoggingHTTPHandler(http.server.SimpleHTTPRequestHandler):
+    def log_message(self, format, *args):
+        log.info("{}: [{}] {}".format(self.address_string(),
+                                      self.log_date_time_string(),
+                                      *args))
 
 
 def split_payload(l, size=36):
@@ -50,18 +59,23 @@ def parse_stream(data):
         return output
 
 
-def main():
-    # Parse arguments
-    arg = argparse.ArgumentParser()
-    arg.add_argument("-p", "--port", type=int, default=UDP_PORT,
-                     help="port to bind to (default: %(default)s)")
-    arg.add_argument("-a", "--address", default=UDP_ADDR,
-                     help="address to bind to (default: %(default)s)")
-    arg.add_argument("-o", "--output", default=FILE,
-                     help="file that shall be written (default: %(default)s)")
-    arg.add_argument("-v", "--verbose",
-                     help="turn on verbose output")
-    args = arg.parse_args()
+def server(args):
+    """
+    Start the HTTP server
+    """
+    http_bind_addr = "127.0.0.1"
+    http_bind_port = 8000
+    handler = LoggingHTTPHandler
+
+    httpd = http.server.HTTPServer((http_bind_addr, http_bind_port), handler)
+    log.info("Serving HTTP on {}:{}".format(http_bind_addr, http_bind_port))
+    httpd.serve_forever()
+
+
+def interpret(args):
+    """
+    Bind to a socket, parse the input and write to file.
+    """
 
     # Bind to an internet-facing UDP socket
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -82,4 +96,32 @@ def main():
 
 # Main program stars here
 if __name__ == "__main__":
-    main()
+    # Parse arguments
+    args = argparse.ArgumentParser()
+    args.add_argument("-p", "--port", type=int, default=UDP_PORT,
+                      help="port to bind to (default: %(default)s)")
+    args.add_argument("-a", "--address", default=UDP_ADDR,
+                      help="address to bind to (default: %(default)s)")
+    args.add_argument("-o", "--output", default=FILE,
+                      help="file that shall be written (default: %(default)s)")
+    args.add_argument("-d", "--debug", const=log.DEBUG, nargs="?",
+                      dest="loglevel", default=log.WARNING,
+                      help="turn on debugging")
+    args.add_argument("-v", "--verbose", const=log.INFO, nargs="?",
+                      dest="loglevel",
+                      help="turn on verbose output")
+    args = args.parse_args()
+
+    log.basicConfig(level=args.loglevel)
+
+    # Create interpreter thread and send it the arguments
+    interpreter_thread = threading.Thread(target=interpret,
+                                          name="interpreter",
+                                          args=(args,))
+    server_thread = threading.Thread(target=server,
+                                     name="server",
+                                     args=(args,))
+
+    # Run the threads
+    interpreter_thread.start()
+    server_thread.start()

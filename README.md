@@ -34,6 +34,7 @@ files/directories under the following list.
 
 * `es_airspace.geojson` by [VueloAVela] and subject to their own copyright terms.
 
+* `plane.png` by [FlatIcon], licensed under the [CC BY 3.0]
 
 
 Development
@@ -58,3 +59,6 @@ This features will probably come in the very near future:
 
 [Xplage]: http://www.chriskern.net/code/xplaneToGoogleEarth.html
 [FLOSS]: https://en.wikipedia.org/wiki/Alternative_terms_for_free_software#FLOSS
+[VueloAVela]: http://www.vueloavela.org/index.php/navegacion/cartografia<F37>
+[FlatIcon]: http://www.flaticon.com
+[CC BY 3.0]: http://creativecommons.org/licenses/by/3.0/

@@ -18,7 +18,32 @@ var map;
 var geojsonlayer;
 var tiles;
 
+function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.name && feature.properties.description) {
+	    layer.bindPopup("<strong>"
+			    + feature.properties.name
+			    + "</strong><br>"
+			    + feature.properties.description);
+    }
+}
+
 // Load a GeoJSON file from /overhead.kml
+function loadAirspaceLayer() {
+	var r = new XMLHttpRequest();
+	r.open("GET", "/airspace.geojson", true);
+	r.overrideMimeType("application/json");
+	r.onreadystatechange = function() {
+		if (r.readyState == 4 && r.status == 200) {
+			airspace_geojson = JSON.parse(r.response);
+			layer = L.geoJson(airspace_geojson, {
+				onEachFeature: onEachFeature
+			});
+			layer.addTo(map);
+		}
+	}
+	r.send();
+}
 function loadGeoJSONLayer() {
   var r = new XMLHttpRequest();
   r.open("GET", "/position.geojson", true);
@@ -49,6 +74,7 @@ tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         });
 
 tiles.addTo(map);
+loadAirspaceLayer();
 loadGeoJSONLayer();
     </script>
   </body>

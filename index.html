@@ -19,6 +19,13 @@ var position_layer;
 var es_airspace_layer;
 var tiles;
 
+var plane_icon = L.icon({
+  iconUrl: '/plane.png',
+  iconSize:     [32, 32],
+  iconAnchor:   [16, 16],
+  popupAnchor:  [0, -70]
+});
+
 
 // Bind a popup for each feature
 function onEachFeature(feature, layer) {
@@ -56,10 +63,20 @@ function loadPositionLayer() {
   r.overrideMimeType("application/json");
   r.onreadystatechange = function() {
     if (r.readyState == 4 && r.status == 200) {
-      position_geojson = JSON.parse(r.response)
-      position_layer = L.geoJson(position_geojson).on("ready", window.setTimeout(refresh, 1000));
+      // Check if we can parse the JSON, otherwise try later, 'cause
+      // the amerigo.py script might be working on it
+      if (JSON.parse(r.response)) {
+        position_geojson = JSON.parse(r.response);
+      }
+      else {
+        window.setTimeout(refresh, 500)
+      }
+
+      position_layer = L.geoJson(position_geojson)
+      .on("ready", window.setTimeout(refresh, 1000));
+      position_layer.getLayers()[0].setIcon(plane_icon)
       position_layer.addTo(map);
-    }
+      }
   }
   r.send();
 }

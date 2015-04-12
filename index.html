@@ -63,10 +63,11 @@ function refresh() {
     map.removeLayer(geojsonlayer);
   }
   loadGeoJSONLayer();
+  map.panTo(geojsonlayer.getLayers()[0].getLatLng())
 }
 
 // create a map in the "map" div, set the view to a given place and zoom
-map = L.map('map').setView([42.505, -0.09], 6);
+map = L.map('map').setView([0, 0], 6);
 
 // add an OpenStreetMap tile layer
 tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {

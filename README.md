@@ -28,8 +28,12 @@ Running the webapp
 License
 -------
 
-This project is licensed under the OpenBSD/ISC license. Please check the
-`LICENSE` file for details.
+This project is licensed under the OpenBSD/ISC license (check the `LICENSE` file
+for details) except for the
+files/directories under the following list.
+
+* `es_airspace.geojson` by [VueloAVela] and subject to their own copyright terms.
+
 
 
 Development

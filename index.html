@@ -39,7 +39,11 @@ function loadESAirspaceLayer() {
     if (r.readyState == 4 && r.status == 200) {
       es_airspace_geojson = JSON.parse(r.response);
       es_airspace_layer = L.geoJson(es_airspace_geojson, { onEachFeature: onEachFeature });
-      es_airspace_layer.addTo(map);
+
+      es_airspace_layer_group = L.layerGroup([es_airspace_layer]);
+      es_airspace_layer_group.addTo(map);
+      es_airspace_layer_control = {"ES Airspace": es_airspace_layer};
+      L.control.layers(null, es_airspace_layer_control).addTo(map);
     }
   }
   r.send();
@@ -79,6 +83,7 @@ tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 tiles.addTo(map);
 loadESAirspaceLayer();
 loadPositionLayer();
+
     </script>
   </body>
 </html>

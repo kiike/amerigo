@@ -15,11 +15,12 @@ body { margin:0; padding:0; }
     <script type="text/javascript">
 // Initalise globals
 var map;
-var geojsonlayer;
+var position_layer;
 var tiles;
 
+
+// Bind a popup for each feature
 function onEachFeature(feature, layer) {
-    // does this feature have a property named popupContent?
     if (feature.properties && feature.properties.name && feature.properties.description) {
 	    layer.bindPopup("<strong>"
 			    + feature.properties.name
@@ -28,42 +29,42 @@ function onEachFeature(feature, layer) {
     }
 }
 
-// Load a GeoJSON file from /overhead.kml
-function loadAirspaceLayer() {
-	var r = new XMLHttpRequest();
-	r.open("GET", "/airspace.geojson", true);
-	r.overrideMimeType("application/json");
-	r.onreadystatechange = function() {
-		if (r.readyState == 4 && r.status == 200) {
-			airspace_geojson = JSON.parse(r.response);
-			layer = L.geoJson(airspace_geojson, {
-				onEachFeature: onEachFeature
-			});
-			layer.addTo(map);
-		}
-	}
-	r.send();
+// Load a layer from airspace.geojson containing the airspace for Spain
+function loadSpainAirspaceLayer() {
+  var r = new XMLHttpRequest();
+  r.open("GET", "/airspace.geojson", true);
+  r.overrideMimeType("application/json");
+  r.onreadystatechange = function() {
+    if (r.readyState == 4 && r.status == 200) {
+      airspace_geojson = JSON.parse(r.response);
+      airspace_layer = L.geoJson(airspace_geojson, { onEachFeature: onEachFeature });
+      airspace_layer.addTo(map);
+    }
+  }
+  r.send();
 }
-function loadGeoJSONLayer() {
+
+
+function loadPositionLayer() {
   var r = new XMLHttpRequest();
   r.open("GET", "/position.geojson", true);
   r.overrideMimeType("application/json");
   r.onreadystatechange = function() {
     if (r.readyState == 4 && r.status == 200) {
-      geojsondata = JSON.parse(r.response)
-      geojsonlayer = L.geoJson(geojsondata).on("ready", window.setTimeout(refresh, 1000));
-      geojsonlayer.addTo(map);
+      position_geojson = JSON.parse(r.response)
+      position_layer = L.geoJson(position_geojson).on("ready", window.setTimeout(refresh, 1000));
+      position_layer.addTo(map);
     }
   }
   r.send();
 }
 
 function refresh() {
-  if (map.hasLayer(geojsonlayer)) {
-    map.removeLayer(geojsonlayer);
+  if (map.hasLayer(position_layer)) {
+    map.removeLayer(position_layer);
   }
-  loadGeoJSONLayer();
-  map.panTo(geojsonlayer.getLayers()[0].getLatLng())
+  loadPositionLayer();
+  map.panTo(position_layer.getLayers()[0].getLatLng())
 }
 
 // create a map in the "map" div, set the view to a given place and zoom
@@ -75,8 +76,8 @@ tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         });
 
 tiles.addTo(map);
-loadAirspaceLayer();
-loadGeoJSONLayer();
+loadSpainAirspaceLayer();
+loadPositionLayer();
     </script>
   </body>
 </html>

@@ -16,6 +16,7 @@ body { margin:0; padding:0; }
 // Initalise globals
 var map;
 var position_layer;
+var es_airspace_layer;
 var tiles;
 
 
@@ -30,15 +31,15 @@ function onEachFeature(feature, layer) {
 }
 
 // Load a layer from airspace.geojson containing the airspace for Spain
-function loadSpainAirspaceLayer() {
+function loadESAirspaceLayer() {
   var r = new XMLHttpRequest();
-  r.open("GET", "/airspace.geojson", true);
+  r.open("GET", "/es_airspace.geojson", true);
   r.overrideMimeType("application/json");
   r.onreadystatechange = function() {
     if (r.readyState == 4 && r.status == 200) {
-      airspace_geojson = JSON.parse(r.response);
-      airspace_layer = L.geoJson(airspace_geojson, { onEachFeature: onEachFeature });
-      airspace_layer.addTo(map);
+      es_airspace_geojson = JSON.parse(r.response);
+      es_airspace_layer = L.geoJson(es_airspace_geojson, { onEachFeature: onEachFeature });
+      es_airspace_layer.addTo(map);
     }
   }
   r.send();
@@ -76,7 +77,7 @@ tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         });
 
 tiles.addTo(map);
-loadSpainAirspaceLayer();
+loadESAirspaceLayer();
 loadPositionLayer();
     </script>
   </body>

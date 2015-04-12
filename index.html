@@ -22,12 +22,12 @@ var tiles;
 
 // Bind a popup for each feature
 function onEachFeature(feature, layer) {
-    if (feature.properties && feature.properties.name && feature.properties.description) {
-	    layer.bindPopup("<strong>"
-			    + feature.properties.name
-			    + "</strong><br>"
-			    + feature.properties.description);
-    }
+  if (feature.properties && feature.properties.name && feature.properties.description) {
+    layer.bindPopup("<strong>"
+        + feature.properties.name
+        + "</strong><br>"
+        + feature.properties.description);
+  }
 }
 
 // Load a layer from airspace.geojson containing the airspace for Spain

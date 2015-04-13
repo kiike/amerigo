@@ -24,7 +24,7 @@ class TestAmerigo(unittest.TestCase):
         stream = b'DATA@\x14\x00\x00\x00d\xf5\x1dB\x1eY\xf3\xbe\x7fEqCE'
         stream += b'\xb5v>\x00\x00\x80?\x8d\xa7xC\x00\x00\x18B\x00\x00\x00\xc0'
 
-        parsed = amerigo.parse(stream)
+        parsed = amerigo.parse_stream(stream)
 
         expected = {'alt_agl': 0.2409258633852005,
                     'alt_amsl': 241.27146911621094,

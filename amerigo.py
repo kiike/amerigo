@@ -45,7 +45,7 @@ def split_payload(l, size=36):
         yield ret
 
 
-def parse_stream(data):
+def parse_stream(input_bytes):
     """
     Return a dictionary composed of the parsed binary 'data'.
 
@@ -53,8 +53,8 @@ def parse_stream(data):
     data ::= binary literal
     """
 
-    header = data[0:5]
-    payload = data[5:]
+    header = input_bytes[0:5]
+    payload = input_bytes[5:]
 
     if header == b"DATA@":
         output = {}

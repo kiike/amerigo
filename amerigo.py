@@ -12,8 +12,15 @@ FILE = "./position.geojson"
 UDP_ADDR = "0.0.0.0"
 UDP_PORT = 49000
 
-rosetta = {20: ["lat", "lon", "alt_amsl", "alt_agl",
-                "on_rwy", "alt_ind", "lat_south", "lon_west"]}
+
+# Relate the dataset (integer key) to the data (list of values)
+rosetta = {1: ["real_time", "total_time", "mission_time", "timer_time",
+               "", "zulu_time", "local_time", "hobbs_time"],
+           20: ["lat", "lon", "alt_amsl", "alt_agl",
+                "on_rwy", "alt_ind", "lat_south", "lon_west"],
+           17: ["pitch", "roll", "hdg_true", "hdg_mag",
+                "", "", "", ""]
+           }
 
 
 class LoggingHTTPHandler(http.server.SimpleHTTPRequestHandler):

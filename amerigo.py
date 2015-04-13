@@ -95,7 +95,8 @@ def parse_stream(input_bytes):
                 # Append the translated 'data_set' to the output dict
                 output.update(dict(zip(rosetta[data_set], data)))
             else:
-                log.warning("Couldn't parse: idx:{} data:{}".format(data_set, data))
+                msg = "Unimplemented data set idx:{} data:{}"
+                log.warning(msg.format(data_set, data))
 
         # Uncomment to see the full dictionary (heaps of output!)
         # log.info(output)

@@ -88,6 +88,8 @@ def parse_stream(input_bytes):
             msg = struct.unpack_from("iffffffff", piece)
             data_set = msg[0]
             data = msg[1:]
+            # Uncomment to see what the program is receiving
+            # log.info("idx:{} idx:{}".format(data_set, data))
 
             if data_set in rosetta:
                 # Append the translated 'data_set' to the output dict
@@ -95,6 +97,8 @@ def parse_stream(input_bytes):
             else:
                 log.warning("Couldn't parse: idx:{} data:{}".format(data_set, data))
 
+        # Uncomment to see the full dictionary (heaps of output!)
+        # log.info(output)
         return output
 
 

@@ -37,8 +37,9 @@ class LoggingHTTPHandler(http.server.SimpleHTTPRequestHandler):
 
 def split_payload(l, size=36):
     """
-    Split "l" into chunks of 36 pieces and yield each one
+    Yield every 36-byte chunk of `l`
     """
+
     for i in range(0, len(l) // size):
         ret = l[size * i:size * (i + 1)]
         yield ret

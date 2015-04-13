@@ -25,13 +25,14 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 """
 
-import socket
-import http.server
-import threading
-import struct
-import geojson
 import argparse
+import geojson
+import http.server
 import logging as log
+import socket
+import struct
+import sys
+import threading
 
 FILE = "./position.geojson"
 UDP_ADDR = "0.0.0.0"

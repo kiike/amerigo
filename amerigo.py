@@ -24,6 +24,11 @@ rosetta = {1: ["real_time", "total_time", "mission_time", "timer_time",
 
 
 class LoggingHTTPHandler(http.server.SimpleHTTPRequestHandler):
+    """
+    Turn the SimpleHTTPRequestHandler into a logging, simple
+    request handler
+    """
+
     def log_message(self, format, *args):
         log.info("{}: [{}] {}".format(self.address_string(),
                                       self.log_date_time_string(),

@@ -45,20 +45,8 @@ not only accepted, but also encouraged. Please submit pull requests or issues
 with your feedback!
 
 
-Planned features
-----------------
-
-This features will probably come in the very near future:
-
-- Markers that show the heading of the flight
-
-- Popup with information, such as altitude, speed, etc.
-
-- Toggleable plane tracking, that is, always keep the plane centered
-
-
 [Xplage]: http://www.chriskern.net/code/xplaneToGoogleEarth.html
 [FLOSS]: https://en.wikipedia.org/wiki/Alternative_terms_for_free_software#FLOSS
-[VueloAVela]: http://www.vueloavela.org/index.php/navegacion/cartografia<F37>
+[VueloAVela]: http://www.vueloavela.org/index.php/navegacion/cartografia
 [FlatIcon]: http://www.flaticon.com
 [CC BY 3.0]: http://creativecommons.org/licenses/by/3.0/

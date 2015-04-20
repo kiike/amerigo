@@ -6,15 +6,21 @@ moving map composed, viewable, and modifieable with, entirely, FLOSS software.
 This is an alternative to [Xplage] because there might be people who won't want
 to use Google Earth just to track our flights.
 
+Requirements
+------------
+
+* X-Plane 10 properly configured to send the 20th dataset in "Data Input & Output" via UDP
+
+* An open UDP port to receive the X-Plane data from
+
+* Python 3 and [GeoJSON]
 
 Installation
 ------------
 
 1. Clone this repository: `git clone https://github.com/kiike/amerigo.git`.
 
-2. Install the requirements with pip:
-
-    ` pip install geojson`
+2. Install the requirements with pip: `pip install -r requirements.txt`
 
 
 Running the webapp
@@ -50,3 +56,4 @@ with your feedback!
 [VueloAVela]: http://www.vueloavela.org/index.php/navegacion/cartografia
 [FlatIcon]: http://www.flaticon.com
 [CC BY 3.0]: http://creativecommons.org/licenses/by/3.0/
+[GeoJSON]: https://github.com/frewsxcv/python-geojson

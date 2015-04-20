@@ -38,7 +38,8 @@ This project is licensed under the OpenBSD/ISC license (check the `LICENSE` file
 for details) except for the
 files/directories under the following list.
 
-* `es_airspace.geojson` by [VueloAVela] and subject to their own copyright terms.
+* `es_airspace.geojson` adapted from the [VueloAVela] KML file, subject to
+  Vuelo a Vela's own copyright terms.
 
 * `plane.png` by [FlatIcon], licensed under the [CC BY 3.0]
 

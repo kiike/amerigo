@@ -63,7 +63,7 @@ class LoggingHTTPHandler(http.server.SimpleHTTPRequestHandler):
 
 def split_payload(l, size=36):
     """
-    Yield every 36-byte chunk of `l`
+    Yield every 36-piece chunk of `l`
     """
 
     for i in range(0, len(l) // size):
@@ -75,8 +75,8 @@ def parse_stream(input_bytes):
     """
     Return a dictionary composed of the parsed binary 'data'.
 
-    b'raw data' -> {x-plane data}
-    data ::= binary literal
+    input_bytes -> {key1: value1, .., keyN: valueN}
+    input_bytes ::= binary literal
     """
 
     header = input_bytes[0:5]

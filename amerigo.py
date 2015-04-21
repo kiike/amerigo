@@ -31,7 +31,6 @@ import http.server
 import logging as log
 import socket
 import struct
-import sys
 import threading
 
 FILE = "./position.geojson"
@@ -61,14 +60,13 @@ class LoggingHTTPHandler(http.server.SimpleHTTPRequestHandler):
                                       *args))
 
 
-def split_payload(l, size=36):
+def split_payload(payload, size=36):
     """
-    Yield every 36-piece chunk of `l`
+    Yield every 36-piece chunk of `payload`
     """
 
-    for i in range(0, len(l) // size):
-        ret = l[size * i:size * (i + 1)]
-        yield ret
+    for i in range(0, len(payload) // size):
+        yield payload[size * i:size * (i + 1)]
 
 
 def parse_stream(input_bytes):
@@ -88,8 +86,7 @@ def parse_stream(input_bytes):
             msg = struct.unpack_from("iffffffff", piece)
             data_set = msg[0]
             data = msg[1:]
-            # Uncomment to see what the program is receiving
-            # log.info("idx:{} idx:{}".format(data_set, data))
+            log.debug("<<< idx:{} idx:{}".format(data_set, data))
 
             if data_set in rosetta:
                 # Append the translated 'data_set' to the output dict
@@ -98,33 +95,30 @@ def parse_stream(input_bytes):
                 msg = "Unimplemented data set idx:{} data:{}"
                 log.warning(msg.format(data_set, data))
 
-        # Uncomment to see the full dictionary (heaps of output!)
-        # log.info(output)
+        log.debug(">>> {}".format(output))
         return output
 
 
-def server(args):
+def server(bind_addr="127.0.0.1", bind_port=8000):
     """
     Start the HTTP server
     """
-    http_bind_addr = "127.0.0.1"
-    http_bind_port = 8000
     handler = LoggingHTTPHandler
 
-    httpd = http.server.HTTPServer((http_bind_addr, http_bind_port), handler)
-    log.info("Serving HTTP on {}:{}".format(http_bind_addr, http_bind_port))
+    httpd = http.server.HTTPServer((bind_addr, bind_port), handler)
+    log.info("Serving HTTP on {}:{}".format(bind_addr, bind_port))
     httpd.serve_forever()
 
 
-def interpret(args):
+def interpret(address, port, output):
     """
     Bind to a socket, parse the input and write to file.
     """
 
     # Bind to an internet-facing UDP socket
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    udp_socket.bind((args.address, args.port))
-    log.info("Binding to {}:{}".format(args.address, args.port))
+    log.info("Binding to {}:{}".format(address, port))
+    udp_socket.bind((address, port))
 
     while True:
         # Receive with a buffer of 1024 bytes
@@ -134,7 +128,7 @@ def interpret(args):
             point = geojson.Point((parsed["lon"], parsed["lat"]))
         feature = geojson.Feature(geometry=point)
 
-        with open(args.output, mode="w") as f:
+        with open(output, mode="w") as f:
             f.write(str(feature))
 
 
@@ -161,10 +155,11 @@ if __name__ == "__main__":
     # Create interpreter thread and send it the arguments
     interpreter_thread = threading.Thread(target=interpret,
                                           name="interpreter",
-                                          args=(args,))
+                                          args=(args.address,
+                                                args.port,
+                                                args.output))
     server_thread = threading.Thread(target=server,
-                                     name="server",
-                                     args=(args,))
+                                     name="server")
 
     # Run the threads
     interpreter_thread.start()

@@ -132,9 +132,7 @@ def interpret(address, port, output):
             f.write(str(feature))
 
 
-# Main program stars here
 if __name__ == "__main__":
-    # Parse arguments
     args = argparse.ArgumentParser()
     args.add_argument("-p", "--port", type=int, default=UDP_PORT,
                       help="port to bind to (default: %(default)s)")
